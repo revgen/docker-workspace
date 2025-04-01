@@ -1,0 +1,2 @@
+# Special file to prevent mesage "To run a command as administrator you need to use sudo"
+# in the bash login session

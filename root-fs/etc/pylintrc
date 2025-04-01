@@ -1,0 +1,55 @@
+[MASTER]
+load-plugins=pylint_quotes
+
+# Set the linting for string quotes
+string-quote=double
+triple-quote=double
+docstring-quote=double
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=120
+# String used as indentation unit. This is usually "    " (4 spaces)
+indent-string='    '
+# Expected format of line ending LF
+expected-line-ending-format=LF
+# Regexp for a line that is allowed to be longer than the limit.
+ignore-long-lines=^\s*(# )?<?https?://\S+>?$
+# Allow the body of a class to be on the same line as the declaration if body
+# contains single statement.
+single-line-class-stmt=no
+
+[BASIC]
+good-names=log, fo, fw, fr, ch, fh, dt, now, conf, config, cfg, ex, k, i, j, l, pk, sk
+
+# Naming style matching correct argument names.
+argument-naming-style=snake_case
+
+# Naming style matching correct class attribute names.
+class-attribute-naming-style=UPPER_CASE
+
+# Naming style matching correct class names.
+class-naming-style=PascalCase
+
+# Naming style matching correct constant names.
+const-naming-style=UPPER_CASE
+class-const-naming-style=UPPER_CASE
+
+# Naming style matching correct function names.
+function-naming-style=snake_case
+
+# Naming style matching correct method names.
+method-naming-style=snake_case
+
+# Naming style matching correct variable names.
+variable-naming-style=snake_case
+
+# Minimum line length for functions/classes that require docstrings, shorter
+# ones are exempt.
+docstring-min-length=-1
+
+
+
+[MESSAGES CONTROL]
+disable=logging-format-interpolation,
+        logging-fstring-interpolation

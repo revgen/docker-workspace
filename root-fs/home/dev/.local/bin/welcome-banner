@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+BANNER_CACHE_FILE="${HOME}/.cache/welcome-banner"
+TITLE=VirtualWS
+
+create_logo() {
+    if which figlet >/dev/null; then
+        echo "${TITLE}" | figlet | sed 's/^/  /g' | sed 's/$/  /g'
+    else
+        echo "--| ${TITLE} |--"
+    fi
+}
+
+create_banner() {
+    printf "* %s\n" "$(grep 'PRETTY_NAME' /etc/os-release 2>/dev/null | cut -d= -f2 | sed 's/"//g')"
+    printf "* ${IMAGE_NAME:-"${TITLE}"} v${IMAGE_VERSION:-"0.0.1"}, %s\n"
+    printf "* python v%s, pip v%s\n" "$(python3 --version | awk '{print $2}')" "$(pip --version | awk '{print $2}')"
+    printf "* node %s, npm v%s\n" "$(node --version)" "$(npm --version)"
+    printf "* java v%s, maven v%s, gradle v%s\n" "$(java -version 2>&1 | head -n 1 | cut -d '"' -f2)" "$(mvn --version | grep "Apache Maven" | cut -d" " -f3)" "$(gradle --version | grep Gradle | cut -d" " -f2)"
+    printf "* bash v%s, gcc v%s\n" "$(bash --version | grep "GNU bash" | awk '{print $4}' | cut -d"(" -f1)" "$(gcc --version | grep ^gcc | cut -d")" -f2 | sed 's/[ ]*//g')"
+    printf "* go (golang) v%s\n" "$(go version | cut -d' ' -f3 | sed 's/go//g')"
+    printf "* aws (aws-cli) v%s\n" "$(aws --version | cut -d" " -f1 | cut -d"/" -f2)"
+    printf "* az (azure-cli) v%s\n" "$(az --version | grep azure-cli | awk '{print $2}')"
+    printf "* gcloud (google-cloud-cli) v%s\n" "$(gcloud --version | grep core | cut -d" " -f2)"
+    printf "* oci (oracle-cloud-cli) v%s\n" "$(oci --version)"
+}
+
+show_welcome_text() {
+    if [ ! -f "${BANNER_CACHE_FILE}" ]; then
+        # echo "Create ${output} file..."
+        create_banner > "${BANNER_CACHE_FILE}"
+        # echo "File ${output} was created."
+    fi
+    printf "\e[92m"
+    echo '───────────────────────────────────────────────────────'
+    printf "\e[94m"
+    create_logo
+    printf "\e[0m"
+    echo ". . . . . . . . . . . . . . . . . . . . . . . . . . . ."
+    printf "\e[96m"
+    cat "${BANNER_CACHE_FILE}"
+    printf "\e[92m"
+    echo "───────────────────────────────────────────────────────"
+    printf "\e[0m"
+}
+
+mkdir -p "$(dirname "${BANNER_CACHE_FILE}")"
+
+case "${1}" in
+    update|--update) rm -rf "${BANNER_CACHE_FILE}" ;;
+esac
+show_welcome_text
